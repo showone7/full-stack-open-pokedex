@@ -46,7 +46,6 @@ jobs:
           healthcheck: "https://pokedex-liandrey.herokuapp.com/health"
           checkstring: "okey"
           rollbackonhealthcheckfailed: true
-
   tag_release:
     needs: [simple_deployment_pipeline]
     runs-on: ubuntu-20.04
