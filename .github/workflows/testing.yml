@@ -4,6 +4,9 @@ on:
   push:
     branches:
       - master
+  # schedule:
+  #   # * is a special character in YAML so you have to quote this string
+  #   - cron: "5 * * * *"
 
 jobs:
   a_test_job:
@@ -22,3 +25,17 @@ jobs:
         env:
           COMMIT_MESSAGES: ${{ toJson(github.event.commits.*.message) }}
         run: echo "$COMMIT_MESSAGES"
+
+      - name: Check the deployed service URL 123
+        uses: jtalk/url-health-check-action@v2
+        with:
+          # Check the following URLs one by one sequentially
+          url: https://showone7.github.io/full-stack-open-pokedex/
+          # Follow redirects, or just report success on 3xx status codes
+          follow-redirect: false # Optional, defaults to "false"
+          # Fail this action after this many failed attempts
+          max-attempts: 3 # Optional, defaults to 1
+          # Delay between retries
+          retry-delay: 5s # Optional, only applicable to max-attempts > 1
+          # Retry all errors, including 404. This option might trigger curl upgrade.
+          retry-all: false # Optional, defaults to "false"
